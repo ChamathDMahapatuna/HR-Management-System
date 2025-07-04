@@ -1,8 +1,8 @@
 package com.mahapatuna.hr_management_system.controller;
 
 
-import com.example.hrm.dto.RoleDto;
-import com.example.hrm.service.RoleService;
+import com.mahapatuna.hr_management_system.dto.RoleDto;
+import com.mahapatuna.hr_management_system.service.RoleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,8 +1,8 @@
 package com.mahapatuna.hr_management_system.controller;
 
 
-import com.example.hrm.dto.EmployeeDto;
-import com.example.hrm.service.EmployeeService;
+import com.mahapatuna.hr_management_system.dto.EmployeeDto;
+import com.mahapatuna.hr_management_system.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
