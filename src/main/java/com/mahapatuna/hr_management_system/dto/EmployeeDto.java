@@ -1,27 +1,43 @@
 package com.mahapatuna.hr_management_system.dto;
 
+
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.time.LocalDate;
 
-public class EmployeeDto {
+public class EmployeeDTO {
     private Long id;
+    
+    @NotBlank(message = "First name is required")
     private String firstName;
+    
+    @NotBlank(message = "Last name is required")
     private String lastName;
+    
+    @Email(message = "Please provide a valid email address")
+    @NotBlank(message = "Email is required")
     private String email;
+    
     private String phone;
+    
+    @Past(message = "Hire date must be in the past")
+    @NotNull(message = "Hire date is required")
     private LocalDate hireDate;
+    
     private Double salary;
+    
     private Long departmentId;
-    private String departmentName;
+    
     private Long roleId;
-    private String roleName;
+    
+    // Constructors
+    public EmployeeDTO() {
+    }
 
-    public EmployeeDto() {}
-
-    // Constructor for mapping entity to DTO
-    public EmployeeDto(Long id, String firstName, String lastName, String email, String phone,
-                       LocalDate hireDate, Double salary,
-                       Long departmentId, String departmentName,
-                       Long roleId, String roleName) {
+    public EmployeeDTO(Long id, String firstName, String lastName, String email, String phone, LocalDate hireDate, Double salary, Long departmentId, Long roleId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,42 +46,79 @@ public class EmployeeDto {
         this.hireDate = hireDate;
         this.salary = salary;
         this.departmentId = departmentId;
-        this.departmentName = departmentName;
         this.roleId = roleId;
-        this.roleName = roleName;
     }
 
-    // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
-    public String getFirstName() { return firstName; }
-    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getLastName() { return lastName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
+    public String getLastName() {
+        return lastName;
+    }
 
-    public LocalDate getHireDate() { return hireDate; }
-    public void setHireDate(LocalDate hireDate) { this.hireDate = hireDate; }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-    public Double getSalary() { return salary; }
-    public void setSalary(Double salary) { this.salary = salary; }
+    public String getEmail() {
+        return email;
+    }
 
-    public Long getDepartmentId() { return departmentId; }
-    public void setDepartmentId(Long departmentId) { this.departmentId = departmentId; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public String getDepartmentName() { return departmentName; }
-    public void setDepartmentName(String departmentName) { this.departmentName = departmentName; }
+    public String getPhone() {
+        return phone;
+    }
 
-    public Long getRoleId() { return roleId; }
-    public void setRoleId(Long roleId) { this.roleId = roleId; }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-    public String getRoleName() { return roleName; }
-    public void setRoleName(String roleName) { this.roleName = roleName; }
-}
+    public LocalDate getHireDate() {
+        return hireDate;
+    }
+
+    public void setHireDate(LocalDate hireDate) {
+        this.hireDate = hireDate;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+} 
