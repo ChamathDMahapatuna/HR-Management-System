@@ -1,203 +1,256 @@
 # HR Management System
 
-A comprehensive HR Management System built with Spring Boot backend and React frontend, featuring CRUD operations for Employees, Departments, and Roles with JWT authentication.
+A modern, full-stack Human Resource Management System built with Spring Boot (Backend) and React (Frontend). This system provides comprehensive employee, department, and role management capabilities with role-based access control.
 
-## Features
+## 🚀 Features
 
-- **Employee Management**: Full CRUD operations for employee records
-- **Department Management**: Create, read, update, and delete departments
-- **Role Management**: Manage job roles and designations
-- **Authentication**: JWT-based authentication and authorization
-- **Security**: Role-based access control (Admin, HR, Employee)
-- **Database**: H2 in-memory database for development
-- **Frontend**: Modern React application with Bootstrap UI
+### Core Features
+- **Employee Management**: Add, view, edit, and delete employee records
+- **Department Management**: Organize employees into departments
+- **Role Management**: Define and manage job roles within the organization
+- **User Authentication**: Secure login with JWT tokens
+- **Role-Based Access Control**: Different permissions for different user roles
 
-## Tech Stack
+### User Roles & Permissions
+
+| Role | Permissions |
+|------|-------------|
+| **ADMIN** | Full access to all features (employees, departments, roles) |
+| **HR** | Manage employees and departments, view roles |
+| **MANAGER** | View employees, departments, and roles |
+| **EMPLOYEE** | View employees, departments, and roles (read-only) |
+
+### Technical Features
+- **RESTful API**: Clean, well-structured REST endpoints
+- **JWT Authentication**: Secure token-based authentication
+- **Database**: H2 in-memory database with automatic data initialization
+- **CORS Support**: Cross-origin resource sharing enabled
+- **Responsive UI**: Modern, mobile-friendly interface
+
+## 🛠️ Technology Stack
 
 ### Backend
-- **Spring Boot 3.5.3**
-- **Spring Security** with JWT authentication
-- **Spring Data JPA** for data persistence
-- **H2 Database** (in-memory)
-- **Maven** for dependency management
 - **Java 21**
+- **Spring Boot 3.5.3**
+- **Spring Security** with JWT
+- **Spring Data JPA**
+- **H2 Database**
+- **Maven**
 
 ### Frontend
-- **React 19.1.0**
-- **React Router DOM** for navigation
-- **Bootstrap 5.3.3** for styling
+- **React 18**
+- **React Router** for navigation
 - **Axios** for API calls
-- **Formik & Yup** for form handling and validation
-- **JWT Decode** for token management
+- **CSS3** with modern styling
 - **Vite** for build tooling
 
-## Prerequisites
+## 📋 Prerequisites
 
-- Java 21 or higher
-- Node.js 18 or higher
-- Maven 3.6 or higher
+Before running this application, make sure you have the following installed:
 
-## Setup Instructions
+- **Java 21** or higher
+- **Node.js 16** or higher
+- **npm** or **yarn**
 
-### Backend Setup
+## 🚀 Quick Start
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd HR-Management-System
-   ```
+### 1. Clone the Repository
+```bash
+git clone <repository-url>
+cd HRM
+```
 
-2. **Navigate to the backend directory**
-   ```bash
-   cd src/main/java/com/mahapatuna/hr_management_system
-   ```
+### 2. Backend Setup
 
-3. **Build the project**
-   ```bash
-   mvn clean install
-   ```
+Navigate to the project root and start the Spring Boot application:
 
-4. **Run the Spring Boot application**
-   ```bash
-   mvn spring-boot:run
-   ```
+```bash
+# Using Maven
+mvn spring-boot:run
+
+# Or using Maven wrapper
+./mvnw spring-boot:run
+```
 
 The backend will start on `http://localhost:8080`
 
-### Frontend Setup
+### 3. Frontend Setup
 
-1. **Navigate to the frontend directory**
-   ```bash
-   cd FrondEnd/HR-Management-System-front_end
-   ```
+Navigate to the frontend directory and install dependencies:
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+```bash
+cd hrm-frontend
+npm install
+```
 
-3. **Start the development server**
-   ```bash
-   npm run dev
-   ```
+Start the development server:
+
+```bash
+npm run dev
+```
 
 The frontend will start on `http://localhost:5173`
 
-## API Endpoints
+### 4. Access the Application
+
+Open your browser and navigate to `http://localhost:5173`
+
+## 👥 Default Users
+
+The system comes with pre-configured test users:
+
+| Username | Password | Role | Permissions |
+|----------|----------|------|-------------|
+| `admin` | `admin123` | ADMIN | Full access |
+| `hr` | `hr123` | HR | Employee & Department management |
+| `manager` | `manager123` | MANAGER | View access only |
+| `employee` | `employee123` | EMPLOYEE | View access only |
+
+## 📊 API Endpoints
 
 ### Authentication
 - `POST /api/auth/login` - User login
-- `POST /api/auth/signup` - User registration
+- `POST /api/auth/register` - User registration
 
 ### Employees
 - `GET /api/employees` - Get all employees
 - `GET /api/employees/{id}` - Get employee by ID
-- `POST /api/employees` - Create new employee
-- `PUT /api/employees/{id}` - Update employee
-- `DELETE /api/employees/{id}` - Delete employee
+- `POST /api/employees` - Create new employee (ADMIN, HR only)
+- `PUT /api/employees/{id}` - Update employee (ADMIN, HR only)
+- `DELETE /api/employees/{id}` - Delete employee (ADMIN, HR only)
 
 ### Departments
 - `GET /api/departments` - Get all departments
 - `GET /api/departments/{id}` - Get department by ID
-- `POST /api/departments` - Create new department
-- `PUT /api/departments/{id}` - Update department
-- `DELETE /api/departments/{id}` - Delete department
+- `POST /api/departments` - Create new department (ADMIN, HR only)
+- `PUT /api/departments/{id}` - Update department (ADMIN, HR only)
+- `DELETE /api/departments/{id}` - Delete department (ADMIN, HR only)
 
 ### Roles
 - `GET /api/roles` - Get all roles
 - `GET /api/roles/{id}` - Get role by ID
-- `POST /api/roles` - Create new role
-- `PUT /api/roles/{id}` - Update role
-- `DELETE /api/roles/{id}` - Delete role
+- `POST /api/roles` - Create new role (ADMIN only)
+- `PUT /api/roles/{id}` - Update role (ADMIN only)
+- `DELETE /api/roles/{id}` - Delete role (ADMIN only)
 
-## Database
-
-The application uses H2 in-memory database for development. You can access the H2 console at:
-- URL: `http://localhost:8080/h2-console`
-- JDBC URL: `jdbc:h2:mem:testdb`
-- Username: `sa`
-- Password: (empty)
-
-## Security
-
-The application implements role-based access control with the following roles:
-- **ROLE_ADMIN**: Full access to all endpoints
-- **ROLE_HR**: Access to employee, department, and role management
-- **ROLE_EMPLOYEE**: Read-only access to employee data
-
-## Project Structure
+## 🏗️ Project Structure
 
 ```
-HR-Management-System/
-├── src/main/java/com/mahapatuna/hr_management_system/
-│   ├── controller/           # REST controllers
-│   ├── dto/                 # Data Transfer Objects
-│   ├── entity/              # JPA entities
-│   ├── repository/          # Data access layer
-│   ├── service/             # Business logic
-│   │   └── impl/           # Service implementations
-│   └── security/           # Security configuration
-│       ├── config/         # Security config
-│       ├── controller/     # Auth controller
-│       ├── dto/           # Auth DTOs
-│       ├── entity/        # User entities
-│       ├── jwt/           # JWT utilities
-│       ├── repository/    # User repository
-│       └── service/       # User details service
-├── FrondEnd/HR-Management-System-front_end/
-│   ├── src/
-│   │   ├── components/    # React components
-│   │   │   ├── auth/     # Authentication components
-│   │   │   ├── common/   # Shared components
-│   │   │   ├── dashboard/ # Dashboard components
-│   │   │   └── layout/   # Layout components
-│   │   └── services/     # API service layer
-│   └── public/           # Static assets
-└── pom.xml               # Maven configuration
+HRM/
+├── src/
+│   └── main/
+│       └── java/com/example/hrm/
+│           ├── config/          # Security and configuration
+│           ├── controller/       # REST controllers
+│           ├── dto/             # Data Transfer Objects
+│           ├── model/           # Entity models
+│           ├── repo/            # Repository interfaces
+│           └── service/         # Business logic
+├── hrm-frontend/
+│   └── src/
+│       ├── components/          # React components
+│       ├── App.jsx             # Main app component
+│       └── main.jsx            # Entry point
+├── pom.xml                     # Maven configuration
+└── README.md                   # This file
 ```
 
-## Usage
+## 🔧 Configuration
 
-1. Start both backend and frontend applications
-2. Register a new user account
-3. Login with your credentials
-4. Navigate through the dashboard to manage employees, departments, and roles
+### Backend Configuration
+The application uses `application.properties` for configuration:
+- Database: H2 in-memory database
+- JWT: Configured with a secret key
+- CORS: Enabled for frontend communication
 
-## Development
+### Frontend Configuration
+- API Base URL: `http://localhost:8080`
+- Development server: `http://localhost:5173`
 
-### Backend Development
-- The application uses Spring Boot with auto-configuration
-- JPA entities are automatically mapped to database tables
-- JWT tokens are used for stateless authentication
-- CORS is configured to allow frontend communication
-
-### Frontend Development
-- React components are organized by feature
-- Bootstrap provides responsive UI components
-- Formik handles form state and validation
-- Axios interceptors handle JWT token management
-
-## Troubleshooting
+## 🐛 Troubleshooting
 
 ### Common Issues
 
-1. **Port conflicts**: Ensure ports 8080 (backend) and 5173 (frontend) are available
-2. **Database connection**: H2 console is accessible at `/h2-console`
-3. **CORS issues**: CORS is configured to allow all origins for development
-4. **JWT token**: Check browser console for token-related errors
+1. **Port 8080 already in use**
+   ```bash
+   # Find and kill the process using port 8080
+   netstat -ano | findstr :8080
+   taskkill /PID <PID> /F
+   ```
+
+2. **Frontend can't connect to backend**
+   - Ensure backend is running on `http://localhost:8080`
+   - Check CORS configuration
+   - Verify API endpoints are accessible
+
+3. **Authentication issues**
+   - Clear browser localStorage
+   - Check JWT token expiration
+   - Verify user credentials
 
 ### Logs
-- Backend logs are available in the console where you run the Spring Boot application
-- Frontend logs are available in the browser console
+- Backend logs: Check console output during `mvn spring-boot:run`
+- Frontend logs: Check browser developer tools console
 
-## Contributing
+## 🔒 Security Features
+
+- **JWT Authentication**: Secure token-based authentication
+- **Role-Based Access Control**: Method-level security with `@PreAuthorize`
+- **Password Encryption**: BCrypt password hashing
+- **CORS Protection**: Configured for secure cross-origin requests
+
+## 🚀 Deployment
+
+### Backend Deployment
+```bash
+# Build JAR file
+mvn clean package
+
+# Run JAR file
+java -jar target/HRM-0.0.1-SNAPSHOT.jar
+```
+
+### Frontend Deployment
+```bash
+# Build for production
+npm run build
+
+# Serve static files
+npm install -g serve
+serve -s dist
+```
+
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## License
+## 📝 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📞 Support
+
+If you encounter any issues or have questions:
+
+1. Check the troubleshooting section above
+2. Review the logs for error messages
+3. Create an issue in the repository
+
+## 🎯 Future Enhancements
+
+- [ ] Employee attendance tracking
+- [ ] Leave management system
+- [ ] Performance reviews
+- [ ] Payroll integration
+- [ ] Email notifications
+- [ ] File upload for employee documents
+- [ ] Advanced reporting and analytics
+- [ ] Mobile application
+
+---
+
+**Happy Coding! 🎉** 
