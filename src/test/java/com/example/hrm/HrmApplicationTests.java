@@ -1,10 +1,10 @@
-package com.mahapatuna.hr_management_system;
+package com.example.hrm;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class HrManagementSystemApplicationTests {
+class HrmApplicationTests {
 
     @Test
     void contextLoads() {

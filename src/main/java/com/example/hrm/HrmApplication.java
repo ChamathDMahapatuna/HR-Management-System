@@ -1,14 +1,14 @@
-package com.mahapatuna.hr_management_system;
+package com.example.hrm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HrManagementSystemApplication {
+public class HrmApplication {
 
     public static void main(String[] args) {
-
-        SpringApplication.run(HrManagementSystemApplication.class, args);
+        SpringApplication.run(HrmApplication.class, args);
+        System.out.println("HR Management System is running!");
     }
 
 }
