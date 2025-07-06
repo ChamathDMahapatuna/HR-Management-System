@@ -20,13 +20,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<Department> findAllDepartments() {
+    public List<Department> getAllDepartments() {
         return departmentRepository.findAll();
     }
 
     @Override
-    public Optional<Department> findDepartmentById(Long id) {
-        return departmentRepository.findById(id);
+    public Department getDepartmentById(Long id) {
+        return departmentRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -40,9 +40,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department updateDepartment(Long id, Department updatedDepartment) {
-        if (departmentRepository.existsById(id)) {
-            updatedDepartment.setId(id);
+    public Department updateDepartment(Department updatedDepartment) {
+        if (departmentRepository.existsById(updatedDepartment.getId())) {
             return departmentRepository.save(updatedDepartment);
         }
         return null; // Could be improved with proper exception handling

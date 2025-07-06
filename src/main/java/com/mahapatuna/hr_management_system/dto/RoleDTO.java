@@ -1,15 +1,16 @@
 package com.mahapatuna.hr_management_system.dto;
 
-
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public class RoleDTO {
     private Long id;
-    
+
     @NotBlank(message = "Role title is required")
     private String title;
-    
+
     private String description;
+    
+    private Integer employeeCount;
 
     // Constructors
     public RoleDTO() {
@@ -45,4 +46,12 @@ public class RoleDTO {
     public void setDescription(String description) {
         this.description = description;
     }
-} 
+    
+    public Integer getEmployeeCount() {
+        return employeeCount;
+    }
+
+    public void setEmployeeCount(Integer employeeCount) {
+        this.employeeCount = employeeCount;
+    }
+}

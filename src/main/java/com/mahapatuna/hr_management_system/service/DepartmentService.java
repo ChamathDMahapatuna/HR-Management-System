@@ -7,15 +7,15 @@ import java.util.Optional;
 
 public interface DepartmentService {
 
-    List<Department> findAllDepartments();
+    List<Department> getAllDepartments();
     
-    Optional<Department> findDepartmentById(Long id);
+    Department getDepartmentById(Long id);
     
     Optional<Department> findDepartmentByName(String name);
     
     Department saveDepartment(Department department);
     
-    Department updateDepartment(Long id, Department updatedDepartment);
+    Department updateDepartment(Department updatedDepartment);
     
     void deleteDepartment(Long id);
     

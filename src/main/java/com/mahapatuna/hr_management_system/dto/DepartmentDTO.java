@@ -1,7 +1,7 @@
 package com.mahapatuna.hr_management_system.dto;
 
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public class DepartmentDTO {
     private Long id;
@@ -10,6 +10,8 @@ public class DepartmentDTO {
     private String name;
     
     private String description;
+    
+    private Integer employeeCount;
 
     // Constructors
     public DepartmentDTO() {
@@ -44,5 +46,13 @@ public class DepartmentDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public Integer getEmployeeCount() {
+        return employeeCount;
+    }
+
+    public void setEmployeeCount(Integer employeeCount) {
+        this.employeeCount = employeeCount;
     }
 } 

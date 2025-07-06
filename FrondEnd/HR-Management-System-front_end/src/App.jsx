@@ -13,6 +13,15 @@ import ProtectedRoute from './components/common/ProtectedRoute';
 // Dashboard
 import Dashboard from './components/dashboard/Dashboard';
 
+// Employee Components
+import EmployeeList from './components/employees/EmployeeList';
+
+// Department Components
+import DepartmentList from './components/departments/DepartmentList';
+
+// Role Components
+import RoleList from './components/roles/RoleList';
+
 // Import bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -40,10 +49,7 @@ function App() {
           }>
             <Route path="" element={
               <Layout>
-                <div>
-                  <h2>Employees List</h2>
-                  <p>Employee listing component will go here</p>
-                </div>
+                <EmployeeList />
               </Layout>
             } />
             <Route path="add" element={
@@ -62,10 +68,7 @@ function App() {
           }>
             <Route path="" element={
               <Layout>
-                <div>
-                  <h2>Departments List</h2>
-                  <p>Department listing component will go here</p>
-                </div>
+                <DepartmentList />
               </Layout>
             } />
             <Route path="add" element={
@@ -84,10 +87,7 @@ function App() {
           }>
             <Route path="" element={
               <Layout>
-                <div>
-                  <h2>Roles List</h2>
-                  <p>Role listing component will go here</p>
-                </div>
+                <RoleList />
               </Layout>
             } />
             <Route path="add" element={

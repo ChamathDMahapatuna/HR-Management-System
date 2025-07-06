@@ -20,13 +20,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> findAllEmployees() {
+    public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
     @Override
-    public Optional<Employee> findEmployeeById(Long id) {
-        return employeeRepository.findById(id);
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -40,9 +40,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee updateEmployee(Long id, Employee updatedEmployee) {
-        if (employeeRepository.existsById(id)) {
-            updatedEmployee.setId(id);
+    public Employee updateEmployee(Employee updatedEmployee) {
+        if (employeeRepository.existsById(updatedEmployee.getId())) {
             return employeeRepository.save(updatedEmployee);
         }
         return null; // This could be improved with proper exception handling

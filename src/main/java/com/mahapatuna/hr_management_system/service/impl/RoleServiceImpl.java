@@ -20,13 +20,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> findAllRoles() {
+    public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }
 
     @Override
-    public Optional<Role> findRoleById(Long id) {
-        return roleRepository.findById(id);
+    public Role getRoleById(Long id) {
+        return roleRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -40,9 +40,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role updateRole(Long id, Role updatedRole) {
-        if (roleRepository.existsById(id)) {
-            updatedRole.setId(id);
+    public Role updateRole(Role updatedRole) {
+        if (roleRepository.existsById(updatedRole.getId())) {
             return roleRepository.save(updatedRole);
         }
         return null; // Could be improved with proper exception handling

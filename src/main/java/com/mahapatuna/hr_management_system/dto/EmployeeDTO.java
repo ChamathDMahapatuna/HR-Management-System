@@ -2,37 +2,41 @@ package com.mahapatuna.hr_management_system.dto;
 
 
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import java.time.LocalDate;
 
 public class EmployeeDTO {
     private Long id;
-    
+
     @NotBlank(message = "First name is required")
     private String firstName;
-    
+
     @NotBlank(message = "Last name is required")
     private String lastName;
-    
+
     @Email(message = "Please provide a valid email address")
     @NotBlank(message = "Email is required")
     private String email;
-    
+
     private String phone;
-    
+
     @Past(message = "Hire date must be in the past")
     @NotNull(message = "Hire date is required")
     private LocalDate hireDate;
-    
+
     private Double salary;
-    
+
     private Long departmentId;
-    
+
     private Long roleId;
     
+    private String departmentName;
+    private String roleTitle;
+
     // Constructors
     public EmployeeDTO() {
     }
@@ -121,4 +125,20 @@ public class EmployeeDTO {
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
-} 
+    
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getRoleTitle() {
+        return roleTitle;
+    }
+
+    public void setRoleTitle(String roleTitle) {
+        this.roleTitle = roleTitle;
+    }
+}

@@ -7,15 +7,15 @@ import java.util.Optional;
 
 public interface RoleService {
 
-    List<Role> findAllRoles();
+    List<Role> getAllRoles();
     
-    Optional<Role> findRoleById(Long id);
+    Role getRoleById(Long id);
     
     Optional<Role> findRoleByTitle(String title);
     
     Role saveRole(Role role);
     
-    Role updateRole(Long id, Role updatedRole);
+    Role updateRole(Role updatedRole);
     
     void deleteRole(Long id);
     
