@@ -1,0 +1,12 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "java -jar target/HRM-0.0.1-SNAPSHOT.jar"
+healthcheckPath = "/api/employees"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
+
+[deploy.envs]
+JAVA_VERSION = "21"
