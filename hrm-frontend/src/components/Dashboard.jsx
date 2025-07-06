@@ -77,7 +77,7 @@ const Dashboard = ({ user }) => {
         </div>
 
         <div className="stat-card">
-          <div className="stat-icon">🎭</div>
+          <div className="stat-icon">📄</div>
           <div className="stat-content">
             <h3>Roles</h3>
             <p className="stat-number">{stats.totalRoles}</p>
