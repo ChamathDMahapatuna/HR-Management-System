@@ -5,7 +5,7 @@ package com.example.hrm.controller;
 import com.example.hrm.dto.DepartmentDto;
 import com.example.hrm.service.DepartmentService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +15,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/departments")
 @CrossOrigin
-@RequiredArgsConstructor
 public class DepartmentController {
     private final DepartmentService departmentService;
+
+    @Autowired
+    public DepartmentController(DepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
 
     @GetMapping
     public List<DepartmentDto> getAllDepartments() {

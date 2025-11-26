@@ -4,7 +4,7 @@ package com.example.hrm.controller;
 import com.example.hrm.dto.RoleDto;
 import  com.example.hrm.service.RoleService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +14,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/roles")
 @CrossOrigin
-@RequiredArgsConstructor
 public class RoleController {
     private final RoleService roleService;
+
+    @Autowired
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @GetMapping
     public List<RoleDto> getAllRoles() {

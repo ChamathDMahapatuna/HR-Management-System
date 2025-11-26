@@ -6,18 +6,25 @@ import com.example.hrm.model.Role;
 import com.example.hrm.repo.DepartmentRepository;
 import com.example.hrm.repo.EmployeeRepository;
 import com.example.hrm.repo.RoleRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
     private final RoleRepository roleRepository;
+
+    @Autowired
+    public EmployeeService(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, 
+                          RoleRepository roleRepository) {
+        this.employeeRepository = employeeRepository;
+        this.departmentRepository = departmentRepository;
+        this.roleRepository = roleRepository;
+    }
 
     public List<EmployeeDto> getAllEmployees() {
         return employeeRepository.findAll()
