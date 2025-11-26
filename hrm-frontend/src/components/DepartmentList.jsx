@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient from '../services/api.service';
+import { API_ENDPOINTS } from '../config/api';
 import './DepartmentList.css';
 
-const DepartmentList = ({ token, userRole }) => {
+const DepartmentList = ({ userRole }) => {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -20,12 +21,10 @@ const DepartmentList = ({ token, userRole }) => {
 
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/departments', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await apiClient.get(API_ENDPOINTS.DEPARTMENTS);
       setDepartments(response.data);
     } catch (err) {
-      setError('Failed to fetch departments');
+      setError(err.message || 'Failed to fetch departments');
       console.error('Error fetching departments:', err);
     } finally {
       setLoading(false);
@@ -49,44 +48,44 @@ const DepartmentList = ({ token, userRole }) => {
 
   const handleAddDepartment = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      await axios.post('http://localhost:8080/api/departments', formData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await apiClient.post(API_ENDPOINTS.DEPARTMENTS, formData);
       setShowAddForm(false);
       resetForm();
       fetchDepartments();
     } catch (err) {
-      setError('Failed to add department');
+      setError(err.message || 'Failed to add department');
       console.error('Error adding department:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleEditDepartment = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      await axios.put(`http://localhost:8080/api/departments/${selectedDepartment.id}`, formData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await apiClient.put(`${API_ENDPOINTS.DEPARTMENTS}/${selectedDepartment.id}`, formData);
       setShowEditForm(false);
       setSelectedDepartment(null);
       resetForm();
       fetchDepartments();
     } catch (err) {
-      setError('Failed to update department');
+      setError(err.message || 'Failed to update department');
       console.error('Error updating department:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDeleteDepartment = async (id) => {
     if (window.confirm('Are you sure you want to delete this department?')) {
       try {
-        await axios.delete(`http://localhost:8080/api/departments/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        await apiClient.delete(`${API_ENDPOINTS.DEPARTMENTS}/${id}`);
         fetchDepartments();
       } catch (err) {
-        setError('Failed to delete department');
+        setError(err.message || 'Failed to delete department');
         console.error('Error deleting department:', err);
       }
     }

@@ -1,6 +1,7 @@
 package com.example.hrm.config;
 
 import com.example.hrm.service.CustomUserDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,15 +25,11 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final CustomUserDetailsService userDetailsService;
-
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter, CustomUserDetailsService userDetailsService) {
-        this.jwtAuthFilter = jwtAuthFilter;
-        this.userDetailsService = userDetailsService;
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -42,12 +39,9 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/employees").permitAll() // Allow GET for all authenticated users
-                .requestMatchers("/api/employees/**").permitAll() // Allow GET for all authenticated users
-                .requestMatchers("/api/departments").permitAll() // Allow GET for all authenticated users
-                .requestMatchers("/api/departments/**").permitAll() // Allow GET for all authenticated users
-                .requestMatchers("/api/roles").permitAll() // Allow GET for all authenticated users
-                .requestMatchers("/api/roles/**").permitAll() // Allow GET for all authenticated users
+                .requestMatchers("/api/employees/**").hasAnyRole("ADMIN", "HR", "MANAGER", "EMPLOYEE")
+                .requestMatchers("/api/departments/**").hasAnyRole("ADMIN", "HR", "MANAGER")
+                .requestMatchers("/api/roles/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

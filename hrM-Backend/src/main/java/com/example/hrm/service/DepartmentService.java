@@ -3,18 +3,16 @@ package com.example.hrm.service;
 import com.example.hrm.dto.DepartmentDto;
 import com.example.hrm.model.Department;
 import com.example.hrm.repo.DepartmentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class DepartmentService {
     private final DepartmentRepository departmentRepository;
-
-    public DepartmentService(DepartmentRepository departmentRepository) {
-        this.departmentRepository = departmentRepository;
-    }
 
     public List<DepartmentDto> getAllDepartments() {
         return departmentRepository.findAll()

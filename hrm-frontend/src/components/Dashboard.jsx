@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect, useCallback } from 'react';
+import apiClient from '../services/api.service';
+import { API_ENDPOINTS } from '../config/api';
 import './Dashboard.css';
 import { Link } from 'react-router-dom';
 
@@ -13,19 +14,13 @@ const Dashboard = ({ user }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    fetchStats();
-  }, []);
-
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     try {
-      const token = localStorage.getItem('token');
-      const headers = { Authorization: `Bearer ${token}` };
-
+      setLoading(true);
       const [employeesRes, departmentsRes, rolesRes] = await Promise.all([
-        axios.get('http://localhost:8080/api/employees', { headers }),
-        axios.get('http://localhost:8080/api/departments', { headers }),
-        axios.get('http://localhost:8080/api/roles', { headers })
+        apiClient.get(API_ENDPOINTS.EMPLOYEES),
+        apiClient.get(API_ENDPOINTS.DEPARTMENTS),
+        apiClient.get(API_ENDPOINTS.ROLES)
       ]);
 
       setStats({
@@ -33,13 +28,18 @@ const Dashboard = ({ user }) => {
         totalDepartments: departmentsRes.data.length,
         totalRoles: rolesRes.data.length
       });
+      setError('');
     } catch (err) {
       console.error('Error fetching stats:', err);
       setError('Failed to load statistics');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
 
   if (loading) {
     return <div className="loading">Loading dashboard...</div>;

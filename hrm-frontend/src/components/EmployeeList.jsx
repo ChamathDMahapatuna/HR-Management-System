@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient from '../services/api.service';
+import { API_ENDPOINTS } from '../config/api';
+import { getValidationErrors } from '../utils/validation';
 import './EmployeeList.css';
 
-const EmployeeList = ({ token, userRole }) => {
+const EmployeeList = ({ userRole }) => {
   const [employees, setEmployees] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [validationErrors, setValidationErrors] = useState({});
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -32,12 +35,10 @@ const EmployeeList = ({ token, userRole }) => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/employees', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await apiClient.get(API_ENDPOINTS.EMPLOYEES);
       setEmployees(response.data);
     } catch (err) {
-      setError('Failed to fetch employees');
+      setError(err.message || 'Failed to fetch employees');
       console.error('Error fetching employees:', err);
     } finally {
       setLoading(false);
@@ -46,9 +47,7 @@ const EmployeeList = ({ token, userRole }) => {
 
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/departments', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await apiClient.get(API_ENDPOINTS.DEPARTMENTS);
       setDepartments(response.data);
     } catch (err) {
       console.error('Error fetching departments:', err);
@@ -57,9 +56,7 @@ const EmployeeList = ({ token, userRole }) => {
 
   const fetchRoles = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/roles', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await apiClient.get(API_ENDPOINTS.ROLES);
       setRoles(response.data);
     } catch (err) {
       console.error('Error fetching roles:', err);
@@ -85,48 +82,65 @@ const EmployeeList = ({ token, userRole }) => {
       hireDate: '',
       salary: ''
     });
+    setValidationErrors({});
   };
 
   const handleAddEmployee = async (e) => {
     e.preventDefault();
+    
+    // Validate form data
+    const errors = getValidationErrors(formData);
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
+    
+    setLoading(true);
     try {
-      await axios.post('http://localhost:8080/api/employees', formData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await apiClient.post(API_ENDPOINTS.EMPLOYEES, formData);
       setShowAddForm(false);
       resetForm();
       fetchEmployees();
     } catch (err) {
-      setError('Failed to add employee');
+      setError(err.message || 'Failed to add employee');
       console.error('Error adding employee:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleEditEmployee = async (e) => {
     e.preventDefault();
+    
+    // Validate form data
+    const errors = getValidationErrors(formData);
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
+    
+    setLoading(true);
     try {
-      await axios.put(`http://localhost:8080/api/employees/${selectedEmployee.id}`, formData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await apiClient.put(`${API_ENDPOINTS.EMPLOYEES}/${selectedEmployee.id}`, formData);
       setShowEditForm(false);
       setSelectedEmployee(null);
       resetForm();
       fetchEmployees();
     } catch (err) {
-      setError('Failed to update employee');
+      setError(err.message || 'Failed to update employee');
       console.error('Error updating employee:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDeleteEmployee = async (id) => {
     if (window.confirm('Are you sure you want to delete this employee?')) {
       try {
-        await axios.delete(`http://localhost:8080/api/employees/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        await apiClient.delete(`${API_ENDPOINTS.EMPLOYEES}/${id}`);
         fetchEmployees();
       } catch (err) {
-        setError('Failed to delete employee');
+        setError(err.message || 'Failed to delete employee');
         console.error('Error deleting employee:', err);
       }
     }

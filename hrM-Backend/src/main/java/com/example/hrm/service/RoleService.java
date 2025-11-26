@@ -2,18 +2,16 @@ package com.example.hrm.service;
 import com.example.hrm.dto.RoleDto;
 import com.example.hrm.model.Role;
 import com.example.hrm.repo.RoleRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class RoleService {
     private final RoleRepository roleRepository;
-
-    public RoleService(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
 
     public List<RoleDto> getAllRoles() {
         return roleRepository.findAll()

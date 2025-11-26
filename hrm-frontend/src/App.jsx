@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import apiClient from './services/api.service';
+import { API_ENDPOINTS } from './config/api';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import EmployeeList from './components/EmployeeList';
@@ -11,18 +13,40 @@ import './App.css';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (token) {
-      setIsAuthenticated(true);
-      const userData = JSON.parse(localStorage.getItem('user') || '{}');
-      setUser(userData);
-    }
-  }, [token]);
+    const validateToken = async () => {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // Validate token by fetching user info
+        const response = await apiClient.get(API_ENDPOINTS.AUTH.ME);
+        const userData = response.data;
+        
+        setUser(userData);
+        setIsAuthenticated(true);
+      } catch (err) {
+        // Token is invalid or expired
+        console.error('Token validation failed:', err);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setIsAuthenticated(false);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    validateToken();
+  }, []);
 
   const handleLogin = (userData, authToken) => {
-    setToken(authToken);
     setUser(userData);
     setIsAuthenticated(true);
     localStorage.setItem('token', authToken);
@@ -30,12 +54,15 @@ function App() {
   };
 
   const handleLogout = () => {
-    setToken(null);
     setUser(null);
     setIsAuthenticated(false);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   };
+
+  if (loading) {
+    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>Loading...</div>;
+  }
 
   return (
     <Router>
@@ -63,7 +90,7 @@ function App() {
               path="/employees" 
               element={
                 isAuthenticated ? 
-                <EmployeeList token={token} userRole={user?.role} /> : 
+                <EmployeeList userRole={user?.role} /> : 
                 <Navigate to="/login" />
               } 
             />
@@ -71,7 +98,7 @@ function App() {
               path="/departments" 
               element={
                 isAuthenticated ? 
-                <DepartmentList token={token} userRole={user?.role} /> : 
+                <DepartmentList userRole={user?.role} /> : 
                 <Navigate to="/login" />
               } 
             />
@@ -79,7 +106,7 @@ function App() {
               path="/roles" 
               element={
                 isAuthenticated ? 
-                <RoleList token={token} userRole={user?.role} /> : 
+                <RoleList userRole={user?.role} /> : 
                 <Navigate to="/login" />
               } 
             />

@@ -3,6 +3,8 @@ package com.example.hrm.controller;
 
 import com.example.hrm.dto.RoleDto;
 import  com.example.hrm.service.RoleService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +14,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/roles")
 @CrossOrigin
+@RequiredArgsConstructor
 public class RoleController {
     private final RoleService roleService;
-
-    public RoleController(RoleService roleService) {
-        this.roleService = roleService;
-    }
 
     @GetMapping
     public List<RoleDto> getAllRoles() {
@@ -31,13 +30,13 @@ public class RoleController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<RoleDto> createRole(@RequestBody RoleDto dto) {
+    public ResponseEntity<RoleDto> createRole(@Valid @RequestBody RoleDto dto) {
         return ResponseEntity.ok(roleService.createRole(dto));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<RoleDto> updateRole(@PathVariable Long id, @RequestBody RoleDto dto) {
+    public ResponseEntity<RoleDto> updateRole(@PathVariable Long id, @Valid @RequestBody RoleDto dto) {
         return ResponseEntity.ok(roleService.updateRole(id, dto));
     }
 

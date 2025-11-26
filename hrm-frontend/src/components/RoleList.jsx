@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient from '../services/api.service';
+import { API_ENDPOINTS } from '../config/api';
 import './RoleList.css';
 
-const RoleList = ({ token, userRole }) => {
+const RoleList = ({ userRole }) => {
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -20,12 +21,10 @@ const RoleList = ({ token, userRole }) => {
 
   const fetchRoles = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/roles', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await apiClient.get(API_ENDPOINTS.ROLES);
       setRoles(response.data);
     } catch (err) {
-      setError('Failed to fetch roles');
+      setError(err.message || 'Failed to fetch roles');
       console.error('Error fetching roles:', err);
     } finally {
       setLoading(false);
@@ -49,44 +48,44 @@ const RoleList = ({ token, userRole }) => {
 
   const handleAddRole = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      await axios.post('http://localhost:8080/api/roles', formData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await apiClient.post(API_ENDPOINTS.ROLES, formData);
       setShowAddForm(false);
       resetForm();
       fetchRoles();
     } catch (err) {
-      setError('Failed to add role');
+      setError(err.message || 'Failed to add role');
       console.error('Error adding role:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleEditRole = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      await axios.put(`http://localhost:8080/api/roles/${selectedRole.id}`, formData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await apiClient.put(`${API_ENDPOINTS.ROLES}/${selectedRole.id}`, formData);
       setShowEditForm(false);
       setSelectedRole(null);
       resetForm();
       fetchRoles();
     } catch (err) {
-      setError('Failed to update role');
+      setError(err.message || 'Failed to update role');
       console.error('Error updating role:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDeleteRole = async (id) => {
     if (window.confirm('Are you sure you want to delete this role?')) {
       try {
-        await axios.delete(`http://localhost:8080/api/roles/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        await apiClient.delete(`${API_ENDPOINTS.ROLES}/${id}`);
         fetchRoles();
       } catch (err) {
-        setError('Failed to delete role');
+        setError(err.message || 'Failed to delete role');
         console.error('Error deleting role:', err);
       }
     }
